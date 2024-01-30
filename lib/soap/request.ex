@@ -13,7 +13,7 @@ defmodule Soap.Request do
   def call(wsdl, operation, soap_headers_and_params, request_headers \\ [], opts \\ [])
 
   def call(wsdl, operation, {soap_headers, params}, request_headers, opts) do
-    url = get_url(wsdl)
+    url = get_url(wsdl, force_https?())
     request_headers = Headers.build(wsdl, operation, request_headers)
     body = Params.build_body(wsdl, operation, params, soap_headers)
 
@@ -28,8 +28,12 @@ defmodule Soap.Request do
     Application.get_env(:soap, :globals)[:http_client] || HTTPoison
   end
 
-  @spec get_url(wsdl :: map()) :: String.t()
-  defp get_url(wsdl) do
-    wsdl.endpoint
+  @spec force_https?() :: boolean()
+  def force_https? do
+    Application.get_env(:soap, :globals)[:force_https] || false
   end
+
+  @spec get_url(wsdl :: map(), boolean()) :: String.t()
+  defp get_url(wsdl, true), do: String.replace(wsdl.endpoint, "http://", "https://")
+  defp get_url(wsdl, _), do: wsdl.endpoint
 end
