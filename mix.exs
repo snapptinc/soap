@@ -49,11 +49,11 @@ defmodule Soap.MixProject do
       {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
 
       # Http && XML
-      {:httpoison, "~> 1.0 or ~> 2.0"},
-      {:xml_builder, "~> 2.1"},
+      {:httpoison, "~> 3.0"},
+      {:xml_builder, "~> 2.4"},
       {:credo, "~> 1.0", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: [:dev, :docs], runtime: false},
-      {:excoveralls, "~> 0.10", only: :test},
+      {:excoveralls, "~> 0.17", only: :test},
       {:mock, "~> 0.3.0", only: :test}
     ]
   end
